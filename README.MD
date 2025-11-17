@@ -115,106 +115,135 @@ s3://<CHAT_LOG_BUCKET>/conversations/<conversation_id>/
 
 ## 🧪 Frontend lokaal starten
 
-Vereist: Node 18+
+**Vereist:** Node 18+
 
+```bash
 cd frontend
 npm install
 npm run dev
+```
+
+Frontend draait op:  
+👉 http://localhost:5173
+
+De backend-URL staat in:  
+`frontend/src/App.jsx`
 
 
-Frontend draait op:
-
-http://localhost:5173
-
-
-De backend-URL staat in:
-
-frontend/src/App.jsx
+---
 
 ## 🐳 Backend Docker builden
+
+```bash
 cd backend
 docker build -t chat-backend .
 docker run -p 8000:8000 chat-backend
+```
 
-☁️ AWS Deployment (korte stappen)
-1. Backend → ECR → App Runner
 
-Bouw & push Docker image:
+---
 
+## ☁️ AWS Deployment (korte stappen)
+
+### 1. Backend → ECR → App Runner
+
+#### Bouw & push Docker image
+
+```bash
 aws ecr get-login-password --region eu-west-1 \
  | docker login --username AWS --password-stdin <ACCOUNT_ID>.dkr.ecr.eu-west-1.amazonaws.com
 
 docker tag chat-backend:latest <ACCOUNT_ID>.dkr.ecr.eu-west-1.amazonaws.com/chat-backend:latest
 docker push <ACCOUNT_ID>.dkr.ecr.eu-west-1.amazonaws.com/chat-backend:latest
+```
 
+#### Maak App Runner service
 
-Maak App Runner service:
+**Source:** ECR  
+**Port:** 8000  
+**Environment vars:** (zie boven)
 
-Source: ECR
+**IAM Rollen:**
+- ECR access role  
+- Instance role met:
+  - `bedrock:InvokeModel`
+  - `s3:GetObject`
+  - `s3:PutObject`
+  - `s3:ListBucket`
 
-Port: 8000
+Je krijgt een App Runner URL zoals:
 
-Environment vars: zie boven
-
-IAM:
-
-ECR access role
-
-Instance role met:
-
-bedrock:InvokeModel
-
-s3:GetObject, PutObject, ListBucket
-
-Je krijgt een URL zoals:
-
+```
 https://abcd1234.eu-west-1.awsapprunner.com
+```
 
-2. Frontend → S3 Static Website
 
-Build:
+---
 
+### 2. Frontend → S3 Static Website
+
+#### Build
+
+```bash
 npm run build
+```
 
+Upload daarna de outputmap **dist/** naar je S3 bucket.
 
-Upload dist/ naar je S3 bucket
+Zet *Static Website Hosting* aan en voeg deze bucket policy toe:
 
-Zet static website hosting aan
-
-Voeg bucket policy toe:
-
+```json
 {
   "Effect": "Allow",
   "Principal": "*",
   "Action": "s3:GetObject",
   "Resource": "arn:aws:s3:::<bucketnaam>/*"
 }
+```
 
-👥 Werken met deze repo (voor developers)
-Repo clonen
+
+---
+
+## 👥 Werken met deze repo (voor developers)
+
+### Repo clonen
+
+```bash
 git clone https://github.com/DeanNieuwerfv2/chatapplicatie-ai.git
 cd chatapplicatie-ai
+```
 
-Lokaal starten
+### Lokaal starten
+
+**Backend:**
+
+```bash
 cd backend
 uv run uvicorn main:app --reload --port 8000
+```
 
+**Frontend:**
+
+```bash
 cd ../frontend
 npm install
 npm run dev
+```
+
+
+---
 
 ## 🔮 Toekomstige uitbreidingen
 
-Historiek ophalen uit S3 en tonen in de UI
+- Historiek ophalen uit S3 en tonen in de UI  
+- Ondersteuning voor meerdere modellen  
+- Deploy pipeline via GitHub Actions  
+- API-key beveiliging  
 
-Ondersteuning voor meerdere modellen
 
-Deploy pipeline via GitHub Actions
+---
 
-API-key beveiliging
+## 🧑‍💻 Credits
 
-🧑‍💻 Credits
-
-Ontwikkeling: Dean
-
-AI Pair Programming: ChatGPT (GPT-5.1)
+**Ontwikkeling:** Dean  Nieuwerf
+**AI Pair Programming:** ChatGPT (GPT-5.1)
