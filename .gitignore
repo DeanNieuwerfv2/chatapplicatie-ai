@@ -1,21 +1,42 @@
-# Python / backend
-backend/.venv/
-backend/__pycache__/
-backend/*.pyc
-backend/.env
-backend/.python-version
+# --- Python / FastAPI ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv
+uv.lock
 
-# Node / frontend
+# uv package manager
+uv.lock
+.uv/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
+
+# FastAPI
+backend/.pytest_cache/
+backend/.mypy_cache/
+
+# --- Node / React / Vite ---
 frontend/node_modules/
-frontend/dist/
-frontend/.env
 frontend/.vite/
+frontend/dist/
 
-# OS / editor
+# Logs
+*.log
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# OS / Editor files
 .DS_Store
 Thumbs.db
 .vscode/
 .idea/
 
 # Docker
-*.log
+backend/.dockerignore
+docker-compose.yml
