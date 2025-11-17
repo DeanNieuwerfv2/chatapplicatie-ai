@@ -35,8 +35,11 @@ Dit project is een moderne AI-chatapplicatie bestaande uit:
           │
           ├── Bedrock: Claude 3 Haiku
           └── S3: Conversatielogs opslaan
+```
+---
+## 📁 Projectstructuur
 
-📁 Projectstructuur
+```text
 .
 ├── backend/
 │   ├── main.py
@@ -54,8 +57,11 @@ Dit project is een moderne AI-chatapplicatie bestaande uit:
 │   └── tailwind.config.js
 │
 └── README.md
+```
 
-🔐 Environment variabelen
+## 🔐 Environment variabelen
+
+```text
 Backend (backend/.env)
 
 (niet committen)
@@ -67,9 +73,10 @@ CHAT_LOG_BUCKET=<jouw-s3-bucketnaam>
 App Runner environment variables
 
 Voeg dezelfde variabelen toe in App Runner onder Environment variables.
+```
 
-🧪 Backend lokaal starten
-
+## 🧪 Backend lokaal starten
+```text
 Vereist: Python 3.11+ en uv package manager
 
 cd backend
@@ -84,8 +91,10 @@ Docs → http://localhost:8000/docs
 Health → http://localhost:8000/health
 
 Chat → POST /chat
+```
 
-💬 Chat endpoint voorbeeld
+##  💬 Chat endpoint voorbeeld
+```code
 Request
 {
   "message": "Hallo!",
@@ -102,8 +111,9 @@ S3 log structuur
 s3://<CHAT_LOG_BUCKET>/conversations/<conversation_id>/
     2024-05-12T15:22:11_user.json
     2024-05-12T15:22:12_assistant.json
+```
 
-🧪 Frontend lokaal starten
+## 🧪 Frontend lokaal starten
 
 Vereist: Node 18+
 
@@ -121,7 +131,7 @@ De backend-URL staat in:
 
 frontend/src/App.jsx
 
-🐳 Backend Docker builden
+## 🐳 Backend Docker builden
 cd backend
 docker build -t chat-backend .
 docker run -p 8000:8000 chat-backend
@@ -193,7 +203,7 @@ cd ../frontend
 npm install
 npm run dev
 
-🔮 Toekomstige uitbreidingen
+## 🔮 Toekomstige uitbreidingen
 
 Historiek ophalen uit S3 en tonen in de UI
 
